@@ -1,0 +1,20 @@
+Default: &defaults
+  database: UCD.sqlite3
+  poolsize: 10
+
+Development:
+  <<: *defaults
+
+Testing:
+  database: UCD_test.sqlite3
+  <<: *defaults
+
+Staging:
+  database: UCD_staging.sqlite3
+  poolsize: 100
+  <<: *defaults
+
+Production:
+  database: UCD_production.sqlite3
+  poolsize: 100
+  <<: *defaults

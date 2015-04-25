@@ -1,0 +1,80 @@
+Character json
+    codePoint Int
+    age Text
+    name Text
+    name1 Text
+    block Text
+    generalCategory Text
+    combiningClass Int
+    bidiClass Text
+    bidiM Bool
+    bidiMirroredGlyph Int
+    bidiControl Bool
+    bidiPairedBracketType Text
+    bidiPairedBracketProp Int
+    decompositionType Text
+    decomposition [Int]
+    compositionExclusion Bool
+    compositionExclusionFull Bool
+    quickCheckNFC Text
+    quickCheckNFD Text
+    quickCheckNFKC Text
+    quickCheckNFKD Text
+    numericType Text
+    numericValue Rational Maybe
+    joiningType Text
+    joiningGroup Text
+    joinControl Bool
+    linebreak Text
+    eastAsianWidth Text
+    uppercase Bool
+    lowercase Bool
+    simpleUppercaseMapping Int Maybe
+    simpleLowercaseMapping Int Maybe
+    simpleTitlecaseMapping Int Maybe
+    uppercaseMapping Int Maybe
+    lowercaseMapping Int Maybe
+    titlecaseMapping Int Maybe
+    caseIgnorable Bool
+    cased Bool
+    script Text Maybe
+    scriptExtensions [Text] Maybe
+    hangulSyllableType Text Maybe
+    jamoShortName Text Maybe
+    indicSyllabicCategory Text Maybe
+    indicMatraCategory Text
+    idStart Bool
+    idContinue Bool
+    xidStart Bool
+    xidContinue Bool
+    patternSyntax Bool
+    patternWhiteSpace Bool
+    dash Bool
+    quotationMark Bool
+    terminalPunctuation Bool
+    sentenceTerminal Bool
+    diacritic Bool
+    extender Bool
+    softDotted Bool
+    alphabetic Bool
+    math Bool
+    hexDigit Bool
+    asciiHexDigit Bool
+    defaultIgnorableCodePoint Bool
+    logicalOrderException Bool
+    whiteSpace Bool
+    graphemeBase Bool
+    graphemeExtend Bool
+    graphemeClusterBreak Text
+    wordBreak Text
+    sentenceBreak Text
+    ideographic Bool
+    unifiedIdeographic Bool
+    idsBinaryOperator Bool
+    idsTrinaryOperator Bool
+    radical Bool
+    deprecated Bool
+    variationSelector Bool
+    noncharacter Bool
+    Primary codePoint
+    deriving Show Eq
