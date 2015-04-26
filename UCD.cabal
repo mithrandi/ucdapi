@@ -21,7 +21,6 @@ library
                      Import.NoFoundation
                      Model
                      Settings
-                     Settings.StaticFiles
                      Handler.Common
                      Handler.Home
                      Handler.UCD
