@@ -3,4 +3,7 @@
 /favicon.ico FaviconR GET
 /robots.txt RobotsR GET
 
-/ HomeR GET POST
+/ HomeR GET
+/unicode/7.0.0/codepoint/#CharacterId CodepointR GET
+/unicode/7.0.0/char/#Text CharR GET
+/unicode/7.0.0/names/#Text NamesR GET

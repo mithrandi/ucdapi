@@ -8,10 +8,10 @@ Character json
     combiningClass Int
     bidiClass Text
     bidiM Bool
-    bidiMirroredGlyph Int
+    bidiMirroredGlyph Int Maybe
     bidiControl Bool
     bidiPairedBracketType Text
-    bidiPairedBracketProp Int
+    bidiPairedBracket Int Maybe
     decompositionType Text
     decomposition [Int]
     compositionExclusion Bool
@@ -32,20 +32,20 @@ Character json
     simpleUppercaseMapping Int Maybe
     simpleLowercaseMapping Int Maybe
     simpleTitlecaseMapping Int Maybe
-    uppercaseMapping Int Maybe
-    lowercaseMapping Int Maybe
-    titlecaseMapping Int Maybe
+    uppercaseMapping [Int]
+    lowercaseMapping [Int]
+    titlecaseMapping [Int]
     caseIgnorable Bool
     cased Bool
-    script Text Maybe
-    scriptExtensions [Text] Maybe
-    hangulSyllableType Text Maybe
-    jamoShortName Text Maybe
-    indicSyllabicCategory Text Maybe
+    script Text
+    scriptExtensions [Text]
+    hangulSyllableType Text
+    jamoShortName Text
+    indicSyllabicCategory Text
     indicMatraCategory Text
     idStart Bool
-    idContinue Bool
     xidStart Bool
+    idContinue Bool
     xidContinue Bool
     patternSyntax Bool
     patternWhiteSpace Bool
@@ -77,4 +77,4 @@ Character json
     variationSelector Bool
     noncharacter Bool
     Primary codePoint
-    deriving Show Eq
+    deriving Eq Show
