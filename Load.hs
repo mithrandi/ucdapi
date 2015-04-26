@@ -129,7 +129,7 @@ insertChar x cp = do
 loadUCD :: (Applicative m, MonadIO m) => Text -> ReaderT SqlBackend m ()
 loadUCD inputFileName = do
   content <- readFile (fpFromText inputFileName)
-  let (xml, mErr) = parse defaultParseOptions content :: (UNode Text, Maybe XMLParseError)
+  let (xml, _) = parse defaultParseOptions content :: (UNode Text, Maybe XMLParseError)
   deleteWhere ([] :: [Filter Character])
   forOf_ (named "ucd" ./ named "repertoire" ./ named "char") xml $ \x ->
     case x ^? ix "cp" . plainCP of
