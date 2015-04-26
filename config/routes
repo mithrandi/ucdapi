@@ -2,6 +2,7 @@
 /robots.txt RobotsR GET
 
 / HomeR GET
-/unicode/7.0.0/codepoint/#CharacterId CodepointR GET
-/unicode/7.0.0/char/#Text CharR GET
-/unicode/7.0.0/names/#Text NamesR GET
+/unicode/#UnicodeVersion/codepoint/hex/#HexPoint CodepointHexR GET
+/unicode/#UnicodeVersion/codepoint/dec/#CharacterId CodepointDecR GET
+/unicode/#UnicodeVersion/chars/#Text CharsR GET
+/unicode/#UnicodeVersion/names/#Text NamesR GET

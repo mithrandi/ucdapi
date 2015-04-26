@@ -1,9 +1,12 @@
 module Foundation where
 
-import Import.NoFoundation
-import Database.Persist.Sql (ConnectionPool, runSqlPool)
-import Text.Hamlet          (hamletFile)
-import Yesod.Core.Types     (Logger)
+import           Control.Lens
+import           Data.Text.Lens
+import           Database.Persist.Sql (ConnectionPool, runSqlPool)
+import           Import.NoFoundation
+import           Numeric.Lens
+import           Text.Hamlet (hamletFile)
+import           Yesod.Core.Types (Logger)
 import qualified Yesod.Core.Unsafe as Unsafe
 
 -- | The foundation datatype for your application. This can be a good place to
@@ -20,6 +23,25 @@ data App = App
 
 instance HasHttpManager App where
     getHttpManager = appHttpManager
+
+data UnicodeVersion = UnicodeLatest
+                    | Unicode7_0_0
+                    deriving (Show, Read, Eq, Ord)
+
+instance PathPiece UnicodeVersion where
+  toPathPiece = \case
+    UnicodeLatest -> "latest"
+    Unicode7_0_0 -> "7.0.0"
+  fromPathPiece = \case
+    "latest" -> Just UnicodeLatest
+    "7.0.0" -> Just Unicode7_0_0
+    _ -> Nothing
+
+newtype HexPoint = HexPoint Int deriving (Show, Read, Eq, Ord)
+
+instance PathPiece HexPoint where
+  toPathPiece (HexPoint c) = _Text . hex # c
+  fromPathPiece t = t ^? _Text . hex . to HexPoint
 
 -- This is where we define all of the routes in our application. For a full
 -- explanation of the syntax, please see:
