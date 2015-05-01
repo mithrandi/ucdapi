@@ -91,6 +91,7 @@ library
                  , hexpat
                  , hexpat-lens
                  , bool-extras
+                 , lens-aeson
 
 executable         UCD
     if flag(library-only)

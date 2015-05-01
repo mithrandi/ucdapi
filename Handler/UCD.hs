@@ -1,8 +1,10 @@
 module Handler.UCD where
 
 import           Control.Lens
+import           Data.Aeson.Lens
 import           Data.Char (ord)
 import qualified Data.Text as T
+import           Data.Vector.Lens
 import           Import
 
 latest :: UnicodeVersion
@@ -35,7 +37,7 @@ getCharsR :: UnicodeVersion -> Text -> Handler Value
 getCharsR v t =
   toJSON <$> runDB (mapM (getChar v) (T.unpack t))
 
-getNamesR :: UnicodeVersion -> Text -> Handler Value
-getNamesR v t = do
+getCharsAttrR :: UnicodeVersion -> Text -> Text -> Handler Value
+getCharsAttrR v t a = do
   chars <- runDB $ mapM (getChar v) (T.unpack t)
-  return . toJSON $ chars ^.. traverse . name
+  return $ _Array # toVectorOf (traverse . to toJSON . key a) chars
