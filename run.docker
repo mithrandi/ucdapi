@@ -1,0 +1,8 @@
+FROM mithrandi/ucd-base
+MAINTAINER Tristan Seligmann <mithrandi@mithrandi.net>
+COPY . /build
+RUN ["mv", "/build/halcyon-cache", "/var/tmp/halcyon-cache"]
+RUN ["/halcyon/halcyon", "install", "--no-build", "file:///build#HEAD"]
+WORKDIR ["/app"]
+RUN ["/app/bin/loaddata", "/build/ucd.all.flat.xml"]
+ENTRYPOINT ["/app/bin/UCD"]
