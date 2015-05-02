@@ -95,6 +95,7 @@ kan-extensions-4.2.1
 keys-3.10.1
 language-javascript-0.5.13.3
 lens-4.9.1
+lens-aeson-1.0.0.3
 lifted-base-0.2.3.6
 mime-mail-0.4.8.2
 mime-types-0.1.0.6
