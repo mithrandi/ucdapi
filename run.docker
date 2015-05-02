@@ -3,6 +3,6 @@ MAINTAINER Tristan Seligmann <mithrandi@mithrandi.net>
 COPY . /build
 RUN ["mv", "/build/halcyon-cache", "/var/tmp/halcyon-cache"]
 RUN ["/halcyon/halcyon", "install", "--no-build", "file:///build#HEAD"]
+RUN ["mv", "/build/UCD.sqlite3", "/app"]
 WORKDIR ["/app"]
-RUN ["/app/bin/loaddata", "/build/ucd.all.flat.xml"]
 ENTRYPOINT ["/app/bin/UCD"]
