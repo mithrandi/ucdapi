@@ -4,5 +4,5 @@ import Import
 
 getHomeR :: Handler Html
 getHomeR = defaultLayout $ do
-  setTitle "Welcome To Yesod!"
+  setTitle "Unicode Character Database HTTP API"
   $(widgetFile "homepage")
