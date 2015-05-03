@@ -2,6 +2,8 @@
 /robots.txt RobotsR GET
 
 / HomeR GET
+/unicode VersionsR GET
+/unicode/#UnicodeVersion VersionR GET
 /unicode/#UnicodeVersion/codepoint/hex/#HexPoint CodepointHexR GET
 /unicode/#UnicodeVersion/codepoint/dec/#CharacterId CodepointDecR GET
 /unicode/#UnicodeVersion/chars/#Text CharsR GET

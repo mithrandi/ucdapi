@@ -10,6 +10,25 @@ import           Import
 latest :: UnicodeVersion
 latest = Unicode7_0_0
 
+getVersionsR :: Handler TypedContent
+getVersionsR = selectRep $ do
+  let versions :: [UnicodeVersion]
+      versions =
+        [ UnicodeLatest
+        , Unicode7_0_0
+        ]
+  provideRep $ defaultLayout $ do
+    setTitle "Available UCD versions"
+    $(widgetFile "versions")
+  provideRep $ return (_Array # toVectorOf (traverse . to toPathPiece . to toJSON) versions :: Value)
+
+getVersionR :: UnicodeVersion -> Handler Html
+getVersionR v = defaultLayout $ do
+  setTitle "Available resources"
+  let hexpoint = HexPoint 0x2603
+      decpoint = CharacterKey 9731
+  $(widgetFile "ucd-resources")
+
 getChar :: UnicodeVersion -> Char -> YesodDB App Character
 getChar v c = case v of
   UnicodeLatest -> getChar latest c

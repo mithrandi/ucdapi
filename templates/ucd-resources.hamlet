@@ -1,0 +1,14 @@
+<h1>Available resources
+<ul>
+  <li>
+    <a href=@{CodepointHexR v hexpoint}>.../codepoint/hex/2603
+    — Attributes for a single character by codepoint in hexadecimal
+  <li>
+    <a href=@{CodepointDecR v decpoint}>.../codepoint/dec/9731
+    — Attributes for a single character by codepoint in decimal
+  <li>
+    <a href=@{CharsR v "any-chars"}>.../chars/any-chars
+    — Attributes for multiple characters, by literal character (UTF-8 and urlencoded).
+  <li>
+    <a href=@{CharsAttrR v "any-chars" "name"}>.../chars/any-chars/name
+    — A specific attribute for multiple characters, by literal character (UTF-8 and urlencoded).
