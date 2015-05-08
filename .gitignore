@@ -10,6 +10,7 @@ config/client_session_key.aes
 .hsenv*
 cabal-dev/
 yesod-devel/
+halcyon-cache/
 .cabal-sandbox
 cabal.sandbox.config
 .DS_Store
