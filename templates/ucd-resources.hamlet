@@ -1,4 +1,5 @@
 <h1>Available resources
+<p>The API exposes two primary resources categories. The 'codepoint' category exposes the resources 'hex' and 'dec' to which a codepoint in hexadecimal or decimal is provided as an item, and json-encoded attributes of the unicode codepoint are returned. The 'chars' resource accepts any string of one or more literal characters (UTF-8 or urlencoded), and returns the json-encoded attributes of each unicode character in the string. An optional attribute 'name' is accepted, then this attribute is used, only the uncode character names are returned.
 <ul>
   <li>
     <a href=@{CodepointHexR v hexpoint}>.../codepoint/hex/2603
