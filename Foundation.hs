@@ -50,6 +50,8 @@ instance Yesod App where
     -- default session idle timeout is 120 minutes
     makeSessionBackend _ = return Nothing
 
+    yesodMiddleware = sslOnlyMiddleware 31536000 . defaultYesodMiddleware
+
     defaultLayout widget = do
         master <- getYesod
         mmsg <- getMessage

@@ -1,5 +1,0 @@
-FROM mithrandi/ucd-base
-MAINTAINER Tristan Seligmann <mithrandi@mithrandi.net>
-RUN DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends libsqlite3-dev
-ENTRYPOINT ["/halcyon/halcyon"]
-CMD ["install", "file:///build#HEAD"]

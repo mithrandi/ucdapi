@@ -76,9 +76,10 @@ library
                  , yaml                          >= 0.8        && < 0.9
                  , http-conduit                  >= 2.1        && < 2.2
                  , directory                     >= 1.1        && < 1.3
-                 , warp                          >= 3.0        && < 3.2
+                 , warp                          >= 3.0        && < 3.3
+                 , warp-tls                      >= 3.0        && < 3.3
                  , data-default
-                 , aeson                         >= 0.6        && < 0.9
+                 , aeson                         >= 0.6        && < 0.10
                  , conduit                       >= 1.0        && < 2.0
                  , monad-logger                  >= 0.3        && < 0.4
                  , fast-logger                   >= 2.2        && < 2.5
@@ -95,7 +96,7 @@ library
                  , bool-extras
                  , lens-aeson
 
-executable         UCD
+executable         ucdapi
     if flag(library-only)
         Buildable: False
 

@@ -12,15 +12,16 @@ module Application
     , db
     ) where
 
-import Control.Monad.Logger                 (liftLoc, runLoggingT)
+import Control.Monad.Logger (liftLoc, runLoggingT)
 import Database.Persist.Sqlite              (createSqlitePool, runSqlPool,
                                              sqlDatabase, sqlPoolSize)
 import Import
-import Language.Haskell.TH.Syntax           (qLocation)
+import Language.Haskell.TH.Syntax (qLocation)
 import Network.Wai.Handler.Warp             (Settings, defaultSettings,
                                              defaultShouldDisplayException,
                                              runSettings, setHost,
                                              setOnException, setPort, getPort)
+import Network.Wai.Handler.WarpTLS (tlsSettingsChain, runTLS)
 import Network.Wai.Middleware.RequestLogger (Destination (Logger),
                                              IPAddrSource (..),
                                              OutputFormat (..), destination,
@@ -138,7 +139,17 @@ appMain = do
     app <- makeApplication foundation
 
     -- Run the application with Warp
-    runSettings (warpSettings foundation) app
+    let wsettings = warpSettings foundation
+    if appTls (appSettings foundation)
+      then
+        let base = "/etc/letsencrypt/live" </> unpack (appTlsHost (appSettings foundation))
+            tlsSettings =
+              tlsSettingsChain
+              (base </> "cert.pem")
+              [base </> "chain.pem"]
+              (base </> "privkey.pem")
+        in runTLS tlsSettings wsettings app
+      else runSettings wsettings app
 
 
 --------------------------------------------------------------

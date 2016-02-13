@@ -30,6 +30,10 @@ data AppSettings = AppSettings
     -- ^ Base for all generated URLs.
     , appHost                   :: HostPreference
     -- ^ Host/interface the server should bind to.
+    , appTls                    :: Bool
+    -- ^ Listen as HTTPS?
+    , appTlsHost                :: Text
+    -- ^ Hostname to use for HTTPS.
     , appPort                   :: Int
     -- ^ Port to listen on
     , appIpFromHeader           :: Bool
@@ -66,6 +70,8 @@ instance FromJSON AppSettings where
         appDatabaseConf           <- o .: "database"
         appRoot                   <- o .: "approot"
         appHost                   <- fromString <$> o .: "host"
+        appTls                    <- o .: "tls"
+        appTlsHost                <- o .: "tls-host"
         appPort                   <- o .: "port"
         appIpFromHeader           <- o .: "ip-from-header"
 

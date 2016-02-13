@@ -3,6 +3,8 @@
 
 static-dir:     "_env:STATIC_DIR:static"
 host:           "_env:HOST:*4" # any IPv4 host
+tls:            "_env:TLS:false"
+tls-host:       "_env:TLSHOST:unset"
 port:           "_env:PORT:3000"
 approot:        "_env:APPROOT:http://localhost:3000"
 ip-from-header: "_env:IP_FROM_HEADER:false"
@@ -18,7 +20,7 @@ ip-from-header: "_env:IP_FROM_HEADER:false"
 # skip-combining: false
 
 database:
-  database: "_env:SQLITE_DATABASE:UCD.sqlite3"
+  database: "_env:SQLITE_DATABASE:db/UCD.sqlite3"
   poolsize: "_env:SQLITE_POOLSIZE:10"
 
 copyright: Site © 2015 Tristan Seligmann, Unicode® Character Database © 1991—2015 Unicode, Inc.
