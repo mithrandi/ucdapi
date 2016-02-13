@@ -5,6 +5,6 @@
 /unicode VersionsR GET
 /unicode/#UnicodeVersion VersionR GET
 /unicode/#UnicodeVersion/codepoint/hex/#HexPoint CodepointHexR GET
-/unicode/#UnicodeVersion/codepoint/dec/#CharacterId CodepointDecR GET
+/unicode/#UnicodeVersion/codepoint/dec/#Int CodepointDecR GET
 /unicode/#UnicodeVersion/chars/#Text CharsR GET
 /unicode/#UnicodeVersion/chars/#Text/#Text CharsAttrR GET

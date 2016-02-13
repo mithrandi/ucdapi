@@ -6,6 +6,7 @@ import           Database.Persist.Sql (ConnectionPool, runSqlPool)
 import           Import.NoFoundation
 import           Numeric.Lens
 import           Text.Hamlet (hamletFile)
+import           UnicodeVersion
 import           Yesod.Core.Types (Logger)
 import qualified Yesod.Core.Unsafe as Unsafe
 
@@ -22,19 +23,6 @@ data App = App
 
 instance HasHttpManager App where
     getHttpManager = appHttpManager
-
-data UnicodeVersion = UnicodeLatest
-                    | Unicode7_0_0
-                    deriving (Show, Read, Eq, Ord)
-
-instance PathPiece UnicodeVersion where
-  toPathPiece = \case
-    UnicodeLatest -> "latest"
-    Unicode7_0_0 -> "7.0.0"
-  fromPathPiece = \case
-    "latest" -> Just UnicodeLatest
-    "7.0.0" -> Just Unicode7_0_0
-    _ -> Nothing
 
 newtype HexPoint = HexPoint Int deriving (Show, Read, Eq, Ord)
 

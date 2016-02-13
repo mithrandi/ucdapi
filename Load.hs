@@ -3,12 +3,14 @@ module Load (loadUCD) where
 
 import           Control.Lens hiding (children)
 import           Data.Bool.Extras (bool)
+import qualified Data.ByteString.Lazy as L
+import qualified Data.Map as M
 import qualified Data.Text as T
 import           Data.Text.Lens (_Text)
 import           Import
 import           Numeric.Lens (decimal, hex)
-import           Text.XML.Expat.Lens
-import           Text.XML.Expat.Tree
+import           Text.XML.Expat.SAX
+import           UnicodeVersion
 
 yn :: (IsString a, Eq a) => Prism' a Bool
 yn = prism (bool "N" "Y") $ \case
@@ -38,12 +40,14 @@ tworded f = fmap T.unwords . traverse f . T.words
 {-# INLINE tworded #-}
 
 insertChar :: (Applicative m, MonadIO m)
-             => UNode Text
+             => UnicodeVersion
+             -> M.Map Text Text
              -> Int
              -> ReaderT SqlBackend m ()
-insertChar x cp = do
+insertChar ver x cp = do
   _ <- insert Character
-    { _codePoint = cp
+    { _version = ver
+    , _codePoint = cp
     , _age = x^?!ix "age"
     , _name = x^?!ix "na".name'
     , _name1 = x^?!ix "na1"
@@ -86,7 +90,8 @@ insertChar x cp = do
     , _hangulSyllableType = x^?!ix "hst"
     , _jamoShortName = x^?!ix "JSN"
     , _indicSyllabicCategory = x^?!ix "InSC"
-    , _indicMatraCategory = x^?!ix "InMC"
+    , _indicMatraCategory = x^?ix "InMC"
+    , _indicPositionalCategory = x^?ix "InPC"
     , _idStart = x^?!ix "IDS".yn
     , _xidStart = x^?!ix "XIDS".yn
     , _idContinue = x^?!ix "IDC".yn
@@ -125,16 +130,17 @@ insertChar x cp = do
   where name' = to (expandName cp)
         cp' :: Prism' Text Int
         cp' = expandCP (cp :: Int)
+{-# INLINE insertChar #-}
 
-loadUCD :: (Applicative m, MonadIO m) => Text -> ReaderT SqlBackend m ()
-loadUCD inputFileName = do
-  content <- readFile (fpFromText inputFileName)
-  let (xml, _) = parse defaultParseOptions content :: (UNode Text, Maybe XMLParseError)
-  deleteWhere ([] :: [Filter Character])
-  forOf_ (named "ucd" ./ named "repertoire" ./ named "char") xml $ \x ->
+loadUCD :: (Applicative m, MonadIO m) => UnicodeVersion -> Text -> ReaderT SqlBackend m ()
+loadUCD ver inputFileName = do
+  deleteWhere [Version ==. ver]
+  content <- liftIO $ L.readFile (T.unpack inputFileName)
+  let xml = parseThrowing defaultParseOptions content
+  forM_ [M.fromList as | StartElement "char" as <- xml] $ \x ->
     case x ^? ix "cp" . plainCP of
-     Just cp -> insertChar x cp
+     Just cp -> insertChar ver x cp
      Nothing -> do
        let Just firstChar = x ^? ix "first-cp" . plainCP
            Just lastChar = x ^? ix "last-cp" . plainCP
-       mapM_ (insertChar x) [firstChar..lastChar]
+       mapM_ (insertChar ver x) [firstChar..lastChar]

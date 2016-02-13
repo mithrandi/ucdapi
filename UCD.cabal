@@ -25,6 +25,7 @@ library
                      Handler.Home
                      Handler.UCD
                      Load
+                     UnicodeVersion
 
     if flag(dev) || flag(library-only)
         cpp-options:   -DDEVELOPMENT
@@ -45,6 +46,7 @@ library
                 EmptyDataDecls
                 NoMonomorphismRestriction
                 DeriveDataTypeable
+                DeriveGeneric
                 ViewPatterns
                 TupleSections
                 RecordWildCards
@@ -134,6 +136,7 @@ test-suite test
                 EmptyDataDecls
                 NoMonomorphismRestriction
                 DeriveDataTypeable
+                DeriveGeneric
                 ViewPatterns
                 TupleSections
                 FlexibleInstances

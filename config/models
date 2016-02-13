@@ -1,4 +1,5 @@
 Character json
+    version UnicodeVersion
     codePoint Int
     age Text
     name Text
@@ -42,7 +43,8 @@ Character json
     hangulSyllableType Text
     jamoShortName Text
     indicSyllabicCategory Text
-    indicMatraCategory Text
+    indicMatraCategory Text Maybe
+    indicPositionalCategory Text Maybe
     idStart Bool
     xidStart Bool
     idContinue Bool
@@ -76,5 +78,5 @@ Character json
     deprecated Bool
     variationSelector Bool
     noncharacter Bool
-    Primary codePoint
-    deriving Eq Show
+    Primary version codePoint
+    deriving Eq Show Generic
