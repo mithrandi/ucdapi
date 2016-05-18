@@ -2,7 +2,6 @@
 module Load (loadUCD) where
 
 import           Control.Lens hiding (children)
-import           Data.Bool.Extras (bool)
 import qualified Data.ByteString.Lazy as L
 import qualified Data.Map as M
 import qualified Data.Text as T
