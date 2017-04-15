@@ -11,7 +11,7 @@ data UnicodeVersion = UnicodeLatest
                     | Unicode7_0_0
                     | Unicode8_0_0
                     | Unicode9_0_0
-                    deriving (Show, Read, Eq, Ord, Generic)
+                    deriving (Show, Read, Eq, Ord, Generic, Bounded, Enum)
 
 instance ToJSON UnicodeVersion
 
@@ -33,4 +33,4 @@ instance PathPiece UnicodeVersion where
     _ -> Nothing
 
 instance Default UnicodeVersion where
-  def = Unicode9_0_0
+  def = maxBound

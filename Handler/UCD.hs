@@ -11,11 +11,7 @@ import           UnicodeVersion
 getVersionsR :: Handler TypedContent
 getVersionsR = selectRep $ do
   let versions :: [UnicodeVersion]
-      versions =
-        [ UnicodeLatest
-        , Unicode7_0_0
-        , Unicode8_0_0
-        ]
+      versions = [minBound..]
   provideRep $ defaultLayout $ do
     setTitle "Available UCD versions"
     $(widgetFile "versions")
