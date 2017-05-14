@@ -10,3 +10,6 @@ image:
     base: fpco/stack-minrun
     add:
       db: /db
+    entrypoints:
+      - ucdapi
+      - loaddata
