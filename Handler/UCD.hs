@@ -13,12 +13,16 @@ getVersionsR = selectRep $ do
   let versions :: [UnicodeVersion]
       versions = [minBound..]
   provideRep $ defaultLayout $ do
+    cacheSeconds 3600
     setTitle "Available UCD versions"
     $(widgetFile "versions")
-  provideRep $ return (_Array # toVectorOf (traverse . to toPathPiece . to toJSON) versions :: Value)
+  provideRep $ do
+    cacheSeconds 3600
+    return (_Array # toVectorOf (traverse . to toPathPiece . to toJSON) versions :: Value)
 
 getVersionR :: UnicodeVersion -> Handler Html
 getVersionR v = defaultLayout $ do
+  cacheSeconds 3600
   setTitle "Available resources"
   let hexpoint = HexPoint 0x2603
       decpoint = 9731
@@ -40,18 +44,22 @@ getCharByHex v (HexPoint c) = case v of
   ver -> get404 $ CharacterKey ver c
 
 getCodepointHexR :: UnicodeVersion -> HexPoint -> Handler Value
-getCodepointHexR v c =
+getCodepointHexR v c = do
+  cacheSeconds 86400
   toJSON <$> runDB (getCharByHex v c)
 
 getCodepointDecR :: UnicodeVersion -> Int -> Handler Value
-getCodepointDecR v cid =
+getCodepointDecR v cid = do
+  cacheSeconds 86400
   toJSON <$> runDB (getCharById v cid)
 
 getCharsR :: UnicodeVersion -> Text -> Handler Value
-getCharsR v t =
+getCharsR v t = do
+  cacheSeconds 86400
   toJSON <$> runDB (mapM (getChar v) (T.unpack t))
 
 getCharsAttrR :: UnicodeVersion -> Text -> Text -> Handler Value
 getCharsAttrR v t a = do
+  cacheSeconds 86400
   chars <- runDB $ mapM (getChar v) (T.unpack t)
   return $ _Array # toVectorOf (traverse . to toJSON . key a) chars
