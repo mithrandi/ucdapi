@@ -50,7 +50,10 @@ instance Yesod App where
     -- default session idle timeout is 120 minutes
     makeSessionBackend _ = return Nothing
 
-    yesodMiddleware = sslOnlyMiddleware 31536000 . defaultYesodMiddleware
+    yesodMiddleware = sslOnlyMiddleware 31536000 . simpleVaryMiddleware
+      where simpleVaryMiddleware handler = do
+              addHeader "Vary" "Accept"
+              handler
 
     defaultLayout widget = do
         master <- getYesod
