@@ -1,8 +1,8 @@
-resolver: lts-5.17
+resolver: lts-8.20
 packages:
 - '.'
 extra-deps:
-- hexpat-lens-0.1.4
+- hexpat-lens-0.1.5
 - hexpat-tagsoup-0.1
 image:
   container:

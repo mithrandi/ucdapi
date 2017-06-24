@@ -6,6 +6,7 @@ import Data.Maybe (fromJust)
 import Import
 import Load (loadUCD)
 import System.Exit (exitWith, ExitCode(ExitFailure))
+import System.IO (hPutStrLn)
 
 main :: IO ()
 main = do

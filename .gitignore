@@ -10,3 +10,4 @@ yesod-devel/
 .DS_Store
 *.swp
 .stack-work
+UCD.cabal

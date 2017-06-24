@@ -1,0 +1,154 @@
+name: UCD
+version: '0.0.0'
+license: MIT
+dependencies:
+  - monad-logger
+library:
+  source-dirs:
+    - ./.
+    - app
+  exposed-modules:
+    - Application
+    - Foundation
+    - Import
+    - Import.NoFoundation
+    - Model
+    - Settings
+    - Handler.Common
+    - Handler.Home
+    - Handler.UCD
+    - Load
+    - UnicodeVersion
+  dependencies:
+    - base >=4 && <5
+    - aeson
+    - bool-extras
+    - bytestring
+    - classy-prelude
+    - classy-prelude-conduit
+    - classy-prelude-yesod
+    - conduit
+    - containers
+    - data-default
+    - directory
+    - fast-logger
+    - file-embed
+    - hexpat
+    - hexpat-lens
+    - hjsmin
+    - http-conduit
+    - lens
+    - lens-aeson
+    - monad-control
+    - persistent
+    - persistent-sqlite
+    - persistent-template
+    - safe
+    - shakespeare
+    - template-haskell
+    - text
+    - time
+    - unordered-containers
+    - vector
+    - wai
+    - wai-extra
+    - wai-logger
+    - warp
+    - warp-tls
+    - yaml
+    - yesod
+    - yesod-auth
+    - yesod-core
+    - yesod-form
+    - yesod-static
+  default-extensions:
+    - CPP
+    - DeriveDataTypeable
+    - DeriveGeneric
+    - EmptyDataDecls
+    - FlexibleContexts
+    - FlexibleInstances
+    - GADTs
+    - GeneralizedNewtypeDeriving
+    - LambdaCase
+    - MultiParamTypeClasses
+    - NoImplicitPrelude
+    - NoMonomorphismRestriction
+    - OverloadedStrings
+    - QuasiQuotes
+    - RankNTypes
+    - RecordWildCards
+    - TemplateHaskell
+    - TupleSections
+    - TypeFamilies
+    - ViewPatterns
+  when:
+  - condition: (flag(dev)) || (flag(library-only))
+    then:
+      ghc-options:
+      - -Wall
+      - -fwarn-tabs
+      - -O0
+      cpp-options: -DDEVELOPMENT
+    else:
+      ghc-options:
+      - -Wall
+      - -fwarn-tabs
+      - -O2
+executables:
+  loaddata:
+    main: loaddata.hs
+    source-dirs: app
+    ghc-options:
+    - -threaded
+    - -O2
+    - -rtsopts
+    - -with-rtsopts=-N
+    dependencies:
+    - base
+    - UCD
+    when:
+    - condition: flag(library-only)
+      buildable: false
+  ucdapi:
+    main: main.hs
+    source-dirs: app
+    ghc-options:
+    - -threaded
+    - -O2
+    - -rtsopts
+    - -with-rtsopts=-N
+    dependencies:
+    - base
+    - UCD
+    when:
+    - condition: flag(library-only)
+      buildable: false
+tests:
+  test:
+    main: Spec.hs
+    source-dirs: test
+    ghc-options: -Wall
+    dependencies:
+    - base
+    - UCD
+    - yesod-test >=1.4.3 && <1.6
+    - yesod-core
+    - yesod
+    - persistent
+    - persistent-sqlite
+    - resourcet
+    - shakespeare
+    - transformers
+    - hspec >=2.0.0
+    - classy-prelude
+    - classy-prelude-yesod
+flags:
+  library-only:
+    description: Build for use with "yesod devel"
+    manual: false
+    default: false
+  dev:
+    description: Turn on development settings, like auto-reload templates.
+    manual: false
+    default: false
