@@ -4,6 +4,7 @@ import           Control.Lens
 import           Data.Text.Lens
 import           Database.Persist.Sql (ConnectionPool, runSqlPool)
 import           Import.NoFoundation
+import           Network.Wai.Middleware.Prometheus (metricsApp)
 import           Numeric.Lens
 import           Text.Hamlet (hamletFile)
 import           UnicodeVersion
@@ -97,6 +98,9 @@ instance RenderMessage App FormMessage where
 
 unsafeHandler :: App -> Handler a -> IO a
 unsafeHandler = Unsafe.fakeHandlerGetLogger appLogger
+
+getMetricsSub :: App -> WaiSubsite
+getMetricsSub _ = WaiSubsite metricsApp
 
 -- Note: Some functionality previously present in the scaffolding has been
 -- moved to documentation in the Wiki. Following are some hopefully helpful

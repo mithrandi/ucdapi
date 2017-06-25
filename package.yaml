@@ -27,6 +27,7 @@ library:
     - classy-prelude
     - classy-prelude-conduit
     - classy-prelude-yesod
+    - clock
     - conduit
     - containers
     - data-default
@@ -37,12 +38,15 @@ library:
     - hexpat-lens
     - hjsmin
     - http-conduit
+    - http-types
     - lens
     - lens-aeson
     - monad-control
     - persistent
     - persistent-sqlite
     - persistent-template
+    - prometheus-client
+    - prometheus-metrics-ghc
     - safe
     - shakespeare
     - template-haskell
@@ -53,6 +57,7 @@ library:
     - wai
     - wai-extra
     - wai-logger
+    - wai-middleware-prometheus
     - warp
     - warp-tls
     - yaml
@@ -100,10 +105,8 @@ executables:
     main: loaddata.hs
     source-dirs: app
     ghc-options:
-    - -threaded
     - -O2
     - -rtsopts
-    - -with-rtsopts=-N
     dependencies:
     - base
     - UCD
@@ -117,7 +120,7 @@ executables:
     - -threaded
     - -O2
     - -rtsopts
-    - -with-rtsopts=-N
+    - '"-with-rtsopts=-N -T"'
     dependencies:
     - base
     - UCD

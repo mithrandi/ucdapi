@@ -1,5 +1,6 @@
 /favicon.ico FaviconR GET
 /robots.txt RobotsR GET
+/metrics MetricsR WaiSubsite getMetricsSub
 
 / HomeR GET
 /unicode VersionsR GET

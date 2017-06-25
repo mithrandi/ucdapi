@@ -5,10 +5,6 @@ module Application
     , develMain
     , makeFoundation
     , makeLogWare
-    -- * for DevelMain
-    , getApplicationRepl
-    , shutdownApp
-    -- * for GHCI
     , handler
     , db
     ) where
@@ -17,17 +13,20 @@ import Control.Monad.Logger (liftLoc, runLoggingT)
 import Database.Persist.Sqlite              (createSqlitePool, runSqlPool,
                                              sqlDatabase, sqlPoolSize)
 import Import
+import Instrument (requestDuration, instrumentApp)
 import Language.Haskell.TH.Syntax (qLocation)
 import Network.Wai (Middleware)
 import Network.Wai.Handler.Warp             (Settings, defaultSettings,
                                              defaultShouldDisplayException,
                                              runSettings, setHost,
-                                             setOnException, setPort, getPort)
+                                             setOnException, setPort)
 import Network.Wai.Handler.WarpTLS (tlsSettingsChain, runTLS)
 import Network.Wai.Middleware.RequestLogger (Destination (Logger),
                                              IPAddrSource (..),
                                              OutputFormat (..), destination,
                                              mkRequestLogger, outputFormat)
+import Prometheus
+import Prometheus.Metric.GHC (ghcMetrics)
 import System.Log.FastLogger                (defaultBufSize, newStdoutLoggerSet,
                                              toLogStr)
 
@@ -84,17 +83,21 @@ makeApplication foundation = do
 
 
 makeLogWare :: App -> IO Middleware
-makeLogWare foundation =
-    mkRequestLogger def
-        { outputFormat =
-            if appDetailedRequestLogging $ appSettings foundation
-                then Detailed True
-                else Apache
-                        (if appIpFromHeader $ appSettings foundation
-                            then FromFallback
-                            else FromSocket)
-        , destination = Logger $ loggerSet $ appLogger foundation
-        }
+makeLogWare foundation = do
+  requests <- Prometheus.registerIO requestDuration
+  void $ Prometheus.register ghcMetrics
+  logger <- mkRequestLogger def
+    { outputFormat =
+        if appDetailedRequestLogging $ appSettings foundation
+        then Detailed True
+        else Apache
+             (if appIpFromHeader $ appSettings foundation
+               then FromFallback
+               else FromSocket)
+    , destination = Logger $ loggerSet $ appLogger foundation
+    }
+  let instrument = instrumentApp requests "ucdapi"
+  return $ logger . instrument
 
 
 -- | Warp settings for the given foundation value.
@@ -157,21 +160,6 @@ appMain = do
               (base </> "privkey.pem")
         in runTLS tlsSettings wsettings app
       else runSettings wsettings app
-
-
---------------------------------------------------------------
--- Functions for DevelMain.hs (a way to run the app from GHCi)
---------------------------------------------------------------
-getApplicationRepl :: IO (Int, App, Application)
-getApplicationRepl = do
-    settings <- getAppSettings
-    foundation <- makeFoundation settings
-    wsettings <- getDevSettings $ warpSettings foundation
-    app1 <- makeApplication foundation
-    return (getPort wsettings, foundation, app1)
-
-shutdownApp :: App -> IO ()
-shutdownApp _ = return ()
 
 
 ---------------------------------------------
