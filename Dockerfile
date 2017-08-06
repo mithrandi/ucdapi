@@ -10,7 +10,7 @@ RUN stack --local-bin-path /dist build --copy-bins
 
 FROM debian:stretch
 RUN apt-get update && env DEBIAN_FRONTEND='noninteractive' apt-get install -y \
- libpq5 \
+ libgmp10 libsqlite3-0 libexpat1 \
  && rm -rf /var/lib/apt/lists/*
 COPY --from=server ["/dist/ucdapi", "/usr/local/bin/"]
 ENTRYPOINT ["/usr/local/bin/ucdapi"]
