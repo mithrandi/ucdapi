@@ -1,3 +1,20 @@
+module Lib.Character where
+
+import Control.Lens ((.~))
+import Data.Bool (Bool(..))
+import Data.Int (Int)
+import Data.Ratio (Rational)
+import Data.Swagger hiding (version, deprecated, name)
+import Data.Text (Text)
+import Database.Persist.TH
+
+import Lib.Prelude
+import Lib.UnicodeVersion
+
+share [ mkPersist sqlSettings { mpsPrefixFields = False }
+      , mkMigrate "migrate"
+      ]
+  [persistLowerCase|
 Character json
     version UnicodeVersion
     codePoint Int
@@ -80,3 +97,14 @@ Character json
     noncharacter Bool
     Primary version codePoint
     deriving Eq Show Generic
+|]
+
+instance ToSchema Character
+
+-- Orphan instances :(
+
+instance ToSchema (Ratio Integer) where
+  declareNamedSchema = pure . NamedSchema Nothing . paramSchemaToSchema
+
+instance ToParamSchema (Ratio Integer) where
+  toParamSchema _ = mempty & type_ .~ SwaggerNumber

@@ -1,4 +1,4 @@
-FROM fpco/stack-build:lts-8.20 as server
+FROM fpco/stack-build:lts-9.1 as server
 COPY ["stack.yaml", "/src/"]
 WORKDIR /src
 RUN stack setup

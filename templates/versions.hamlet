@@ -1,5 +1,0 @@
-<h1>Available UCD versions
-<ul>
-  $forall v <- versions
-    <li>
-      <a href=@{VersionR v}>#{toPathPiece v}

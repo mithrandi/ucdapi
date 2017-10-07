@@ -1,73 +1,46 @@
 name: UCD
-version: '0.0.0'
+version: '1.0.0'
 license: MIT
+author: Tristan Seligmann
+maintainer: mithrandi@mithrandi.net
+copyright: © 2015 Tristan Seligmann
 dependencies:
-  - monad-logger
+  - protolude >=0.1.6 && <0.3
 library:
   source-dirs:
-    - ./.
-    - app
-  exposed-modules:
-    - Application
-    - Foundation
-    - Import
-    - Import.NoFoundation
-    - Model
-    - Settings
-    - Handler.Common
-    - Handler.Home
-    - Handler.UCD
-    - Load
-    - UnicodeVersion
+    - src
   dependencies:
     - base >=4 && <5
     - aeson
-    - bool-extras
     - bytestring
-    - classy-prelude
-    - classy-prelude-conduit
-    - classy-prelude-yesod
     - clock
-    - conduit
     - containers
-    - data-default
-    - directory
-    - fast-logger
-    - file-embed
     - hexpat
-    - hexpat-lens
-    - hjsmin
-    - http-conduit
+    - http-api-data
     - http-types
     - lens
-    - lens-aeson
     - monad-control
+    - monad-logger
     - persistent
     - persistent-sqlite
     - persistent-template
-    - prometheus-client
+    - prometheus-client >=0.2.0
     - prometheus-metrics-ghc
-    - safe
-    - shakespeare
-    - template-haskell
+    - resource-pool
+    - servant
+    - servant-server
+    - servant-swagger
+    - servant-swagger-ui
+    - swagger2
     - text
-    - time
     - unordered-containers
-    - vector
     - wai
     - wai-extra
-    - wai-logger
     - wai-middleware-prometheus
     - warp
-    - warp-tls
-    - yaml
-    - yesod
-    - yesod-auth
-    - yesod-core
-    - yesod-form
-    - yesod-static
   default-extensions:
     - CPP
+    - DataKinds
     - DeriveDataTypeable
     - DeriveGeneric
     - EmptyDataDecls
@@ -80,78 +53,30 @@ library:
     - NoImplicitPrelude
     - NoMonomorphismRestriction
     - OverloadedStrings
+    - PartialTypeSignatures
     - QuasiQuotes
     - RankNTypes
     - RecordWildCards
+    - ScopedTypeVariables
+    - StandaloneDeriving
     - TemplateHaskell
     - TupleSections
     - TypeFamilies
+    - TypeOperators
     - ViewPatterns
-  when:
-  - condition: (flag(dev)) || (flag(library-only))
-    then:
-      ghc-options:
-      - -Wall
-      - -fwarn-tabs
-      - -O0
-      cpp-options: -DDEVELOPMENT
-    else:
-      ghc-options:
-      - -Wall
-      - -fwarn-tabs
-      - -O2
-executables:
-  loaddata:
-    main: loaddata.hs
-    source-dirs: app
-    ghc-options:
+  ghc-options:
+    - -Wall
     - -O2
-    - -rtsopts
-    dependencies:
-    - base
-    - UCD
-    when:
-    - condition: flag(library-only)
-      buildable: false
+executables:
   ucdapi:
     main: main.hs
     source-dirs: app
     ghc-options:
-    - -threaded
-    - -O2
-    - -rtsopts
-    - '"-with-rtsopts=-N -T"'
+      - -Wall
+      - -threaded
+      - -O2
+      - -rtsopts
+      - '"-with-rtsopts=-N -T"'
     dependencies:
-    - base
-    - UCD
-    when:
-    - condition: flag(library-only)
-      buildable: false
-tests:
-  test:
-    main: Spec.hs
-    source-dirs: test
-    ghc-options: -Wall
-    dependencies:
-    - base
-    - UCD
-    - yesod-test >=1.4.3 && <1.6
-    - yesod-core
-    - yesod
-    - persistent
-    - persistent-sqlite
-    - resourcet
-    - shakespeare
-    - transformers
-    - hspec >=2.0.0
-    - classy-prelude
-    - classy-prelude-yesod
-flags:
-  library-only:
-    description: Build for use with "yesod devel"
-    manual: false
-    default: false
-  dev:
-    description: Turn on development settings, like auto-reload templates.
-    manual: false
-    default: false
+      - base
+      - UCD
