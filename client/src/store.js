@@ -2,6 +2,7 @@ import {createStore, combineReducers, compose, applyMiddleware} from 'redux'
 import thunk from 'redux-thunk'
 
 import ucdapi from 'root/services/api/reducer'
+import {fetchVersions} from 'root/services/api/actions'
 import app from 'root/scenes/Home/reducer'
 
 
@@ -19,4 +20,6 @@ export default function configureStore(initialState) {
         initialState,
         composeEnhancers(applyMiddleware(thunk)),
     )
+    store.dispatch(fetchVersions())
+    return store
 }

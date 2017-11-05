@@ -1,4 +1,4 @@
-const { resolve } = require('path')
+const {resolve} = require('path')
 const webpack = require('webpack')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const PreloadWebpackPlugin = require('preload-webpack-plugin')
@@ -20,11 +20,29 @@ module.exports = {
                 include: [resolve(__dirname, '../src')],
                 use: 'babel-loader',
             },
+            {
+                test: /\.s?css$/,
+                use: [
+                    {
+                        loader: 'style-loader',
+                    },
+                    {
+                        loader: 'css-loader',
+                        options: {
+                            importLoaders: 1,
+                            sourceMap: true,
+                        },
+                    },
+                    {
+                        loader: 'resolve-url-loader',
+                    },
+                ],
+            },
         ],
     },
     resolve: {
         alias: {
-            root: resolve(__dirname),
+            root: resolve(__dirname, '..', 'src'),
             npm: resolve(__dirname, '..', 'node_modules'),
         },
     },

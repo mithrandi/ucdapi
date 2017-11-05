@@ -64,8 +64,9 @@ ucdSwagger = toSwagger (Proxy :: Proxy UCDAPI)
   & info.license ?~ ("MIT" & url ?~ URL "https://opensource.org/licenses/MIT")
 
 server :: ServerM API
-server = serveUnicode
+server = (serveVersions :<|> serveUnicode)
   :<|> Tagged metricsApp
   :<|> enter nt (swaggerSchemaUIServer ucdSwagger)
   where nt :: Handler :~> AppM
         nt = NT lift
+        serveVersions = return $ map toUrlPiece [UnicodeLatest .. maxBound]

@@ -44,7 +44,9 @@ type API = UCDAPI
            :<|> "metrics" :> Raw
            :<|> SwaggerSchemaUI "foo-ui" "swagger.json"
 
-type UCDAPI = "unicode" :> Capture "version" UnicodeVersion :> UnicodeAPI
+type UCDAPI = "unicode" :> (
+  Get '[JSON] [Text]
+  :<|> Capture "version" UnicodeVersion :> UnicodeAPI)
 
 type UnicodeAPI =
   "codepoint" :> "hex" :> Capture "codepoint" Hex :> CharsAPI Identity
