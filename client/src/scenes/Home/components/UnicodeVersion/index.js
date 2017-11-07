@@ -11,9 +11,13 @@ import IT from 'react-immutable-proptypes'
 const Versions = setPropTypes({
     version: T.string,
     versions: IT.listOf(T.string),
-})(({version, versions}) => (
-    <FormControl componentClass="select" placeholder="Unicode version" value={version}>
-      {versions.map(v => <option value={v}>{v}</option>)}
+    versionChanged: T.func.isRequired,
+})(({version, versions, versionChanged}) => (
+    <FormControl componentClass="select"
+                 placeholder="Unicode version"
+                 value={version}
+                 onChange={e => versionChanged(e.target.value)}>
+      {versions.map(v => <option value={v} key={v}>{v}</option>)}
     </FormControl>
 ))
 
@@ -21,13 +25,16 @@ const Versions = setPropTypes({
 const UnicodeVersion = setPropTypes({
     version: T.string,
     versions: IT.listOf(T.string),
-})(({version, versions}) => (
+    versionChanged: T.func.isRequired,
+})(({version, versions, versionChanged}) => (
     <Panel>
       <Form inline>
         <ControlLabel>Unicode version</ControlLabel>
         {' '}
         {versions ?
-         <Versions version={version} versions={versions} /> :
+         <Versions version={version}
+                   versions={versions}
+                   versionChanged={versionChanged} /> :
          <FormControl.Static>…</FormControl.Static>}
       </Form>
     </Panel>
